@@ -21,6 +21,9 @@ type Routes []Route
 
 var routes = Routes{
 	Route{"Index", "GET", "/", controllers.PagesHome},
+	// registration
+	// session
+	Route{"Registration", "/api/users", controllers.UsersCreate},
 }
 
 // NewRouter establishes the root application router
