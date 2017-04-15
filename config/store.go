@@ -25,4 +25,5 @@ func (i *Store) InitDb() {
 	if err != nil {
 		log.Fatal("Error opening database connection in store.go")
 	}
+	i.DB.LogMode(true)
 }
