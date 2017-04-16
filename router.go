@@ -6,6 +6,7 @@ import (
 	"github.com/gorilla/mux"
 	"github.com/timkellogg/531/config"
 	"github.com/timkellogg/531/controllers"
+	"github.com/timkellogg/531/controllers/api"
 )
 
 // Route is a REST endpoint that maps common methods
@@ -23,7 +24,7 @@ var routes = Routes{
 	Route{"Index", "GET", "/", controllers.PagesHome},
 	// registration
 	// session
-	Route{"Registration", "/api/users", controllers.UsersCreate},
+	Route{"Registration", "POST", "/api/users", api.UsersCreate},
 }
 
 // NewRouter establishes the root application router
