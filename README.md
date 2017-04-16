@@ -5,7 +5,7 @@ __This app is a workout tracker for using Jim Wendler's 5-3-1 powerlifting routi
 
 ## Running
 
-`./build/app`
+`bin/start`
 
 ## Building
 
