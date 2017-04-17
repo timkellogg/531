@@ -11,9 +11,9 @@ import (
 type User struct {
 	gorm.Model
 	Programs             []Program
+	Username             string
 	Email                string
-	FirstName            string
-	LastName             string
+	Weight               uint
 	Password             string
 	PasswordConfirmation string
 }
@@ -23,20 +23,16 @@ func (u *User) BeforeSave() (err []error) {
 	messages := make([]error, 0)
 
 	// Presence Validations
-	if u.FirstName == "" {
-		messages = append(messages, errors.New("First Name cannot be blank"))
-	}
-
 	if u.Password == "" {
 		messages = append(messages, errors.New("Password cannot be blank"))
 	}
 
-	if u.LastName == "" {
-		messages = append(messages, errors.New("Last Name cannot be blank"))
-	}
-
 	if u.Email == "" {
 		messages = append(messages, errors.New("Email cannot be blank"))
+	}
+
+	if u.Username == "" {
+		messages = append(messages, errors.New("Username cannot be blank"))
 	}
 
 	return messages

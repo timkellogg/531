@@ -9,6 +9,6 @@ import (
 func PagesHome(w http.ResponseWriter, h *http.Request) {
 	d := PageData{Title: "531 Trainer"}
 
-	t, _ := template.ParseFiles("views/index.html")
+	t, _ := template.ParseFiles("views/dist/index.html")
 	t.Execute(w, d)
 }
