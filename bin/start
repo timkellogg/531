@@ -1,3 +1,5 @@
 #!/bin/bash
 
-eval 'go build -o ../build/531 && ../build/531 & npm start --prefix views/'
+# eval 'go build -o ../build/531 && ../build/531 & npm start --prefix views/'
+
+eval 'go build -o ..'
