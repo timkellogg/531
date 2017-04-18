@@ -1,0 +1,29 @@
+{
+	"ImportPath": "github.com/timkellogg/531/server",
+	"GoVersion": "go1.7",
+	"GodepVersion": "v79",
+	"Packages": [
+		"./..."
+	],
+	"Deps": [
+		{
+			"ImportPath": "github.com/gorilla/mux",
+			"Comment": "v1.3.0-5-g599cba5",
+			"Rev": "599cba5e7b6137d46ddf58fb1765f5d928e69604"
+		},
+		{
+			"ImportPath": "github.com/jinzhu/gorm",
+			"Comment": "v1.0-128-g5409931",
+			"Rev": "5409931a1bb87e484d68d649af9367c207713ea2"
+		},
+		{
+			"ImportPath": "github.com/jinzhu/inflection",
+			"Rev": "1c35d901db3da928c72a72d8458480cc9ade058f"
+		},
+		{
+			"ImportPath": "github.com/joho/godotenv",
+			"Comment": "v1.1-5-gd10b3fb",
+			"Rev": "d10b3fbe007de7a25e086524ad17597afa3d238b"
+		}
+	]
+}

@@ -1,0 +1,13 @@
+{
+  "name": "531 Server",
+  "description": "Go api server for 531 app",
+  "keywords": [
+    "531",
+    "go",
+    "api"
+  ],
+  "image": "heroku/go:1.6",
+  "mount_dir": "src/github.com/timkellogg/531",
+  "website": "http://github.com/timkellogg/531",
+  "repository": "http://github.com/timkellogg/531"
+}
