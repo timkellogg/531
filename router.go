@@ -1,6 +1,7 @@
 package main
 
 import (
+	"log"
 	"net/http"
 
 	"github.com/gorilla/mux"
@@ -23,9 +24,15 @@ var routes = Routes{
 	Route{"Registration", "POST", "/api/users", controllers.UsersCreate},
 }
 
+// Cors - enable logging
+type Cors struct {
+	Log *log.Logger
+}
+
 // NewRouter establishes the root application router
 func NewRouter() *mux.Router {
 	router := mux.NewRouter().StrictSlash(true)
+
 	for _, route := range routes {
 		var handler http.Handler
 
@@ -37,7 +44,6 @@ func NewRouter() *mux.Router {
 			Path(route.Pattern).
 			Name(route.Name).
 			Handler(handler)
-
 	}
 
 	return router

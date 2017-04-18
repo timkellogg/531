@@ -4,11 +4,15 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+
+	"github.com/rs/cors"
 )
 
 func main() {
 	// initialize db
 	router := NewRouter()
-	fmt.Println("Serve up on :3000")
-	log.Fatal(http.ListenAndServe(":3000", router))
+	handler := cors.Default().Handler(router)
+
+	fmt.Println("Server up on PORT")
+	log.Fatal(http.ListenAndServe(":3000", handler))
 }

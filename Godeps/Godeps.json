@@ -2,9 +2,6 @@
 	"ImportPath": "github.com/timkellogg/531/server",
 	"GoVersion": "go1.7",
 	"GodepVersion": "v79",
-	"Packages": [
-		"./..."
-	],
 	"Deps": [
 		{
 			"ImportPath": "github.com/gorilla/mux",
@@ -24,6 +21,20 @@
 			"ImportPath": "github.com/joho/godotenv",
 			"Comment": "v1.1-5-gd10b3fb",
 			"Rev": "d10b3fbe007de7a25e086524ad17597afa3d238b"
+		},
+		{
+			"ImportPath": "github.com/rs/cors",
+			"Comment": "v1.0",
+			"Rev": "a62a804a8a009876ca59105f7899938a1349f4b3"
+		},
+		{
+			"ImportPath": "github.com/rs/xhandler",
+			"Comment": "v1.0-1-ged27b6f",
+			"Rev": "ed27b6fd65218132ee50cd95f38474a3d8a2cd12"
+		},
+		{
+			"ImportPath": "golang.org/x/net/context",
+			"Rev": "d379faa25cbdc04d653984913a2ceb43b0bc46d7"
 		}
 	]
 }
