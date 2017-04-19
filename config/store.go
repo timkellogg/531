@@ -4,7 +4,11 @@ import (
 	"log"
 	"os"
 
+	"fmt"
+
 	"github.com/jinzhu/gorm"
+	_ "github.com/jinzhu/gorm/dialects/postgres"
+	"github.com/timkellogg/531/server/models"
 )
 
 // Store - reference to db
@@ -12,18 +16,26 @@ type Store struct {
 	DB *gorm.DB
 }
 
+// Database - reference to database used for reading/writing SQL trans
+var Database = Store{}
+
 // InitDb - bootstrap db connection
 func (i *Store) InitDb() {
 	var err error
-	dbHost := os.Getenv("DATABASE_HOST")
-	dbUser := os.Getenv("DATABASE_USER")
-	dbName := os.Getenv("DATABASE_NAME")
-	dbSslm := os.Getenv("DATABASE_SSL_MODE")
-	dbPass := os.Getenv("DATABASE_PASS")
 
-	i.DB, err = gorm.Open("postgres", "host=%s user=%s dbname=%s, sslmode=%s, dbPass", dbHost, dbUser, dbName, dbSslm, dbPass)
+	i.DB, err = gorm.Open("postgres", os.Getenv("DATABASE_URL"))
 	if err != nil {
-		log.Fatal("Error opening database connection in store.go")
+		log.Fatal(err)
 	}
+
 	i.DB.LogMode(true)
+	i.CreateDb()
+}
+
+// CreateDb - creates table
+func (i *Store) CreateDb() {
+	i.DB.AutoMigrate(&models.User{})
+	i.DB.AutoMigrate(&models.Program{})
+
+	fmt.Println("Migrated tables")
 }

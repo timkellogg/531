@@ -10,12 +10,11 @@ import (
 // TODO - add hashing function | don't store plaintext password
 type User struct {
 	gorm.Model
-	Programs             []Program
-	Username             string
-	Email                string
-	Weight               uint
-	Password             string
-	PasswordConfirmation string
+	Programs []Program `json:"programs"`
+	Username string    `json:"username"`
+	Email    string    `json:"email"`
+	Weight   uint      `json:",string"`
+	Password string    `json:"password"`
 }
 
 // BeforeSave - validations

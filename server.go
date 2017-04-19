@@ -6,10 +6,13 @@ import (
 	"net/http"
 
 	"github.com/rs/cors"
+	"github.com/timkellogg/531/server/config"
 )
 
 func main() {
-	// initialize db
+	config.Bootstrap()
+	config.Database.InitDb()
+
 	router := NewRouter()
 	handler := cors.Default().Handler(router)
 
