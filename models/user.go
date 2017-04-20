@@ -17,8 +17,8 @@ type User struct {
 	Password string    `json:"password"`
 }
 
-// BeforeSave - validations
-func (u *User) BeforeSave() (err []error) {
+// ValidateUser - validations
+func (u *User) ValidateUser() (err []error) {
 	messages := make([]error, 0)
 
 	// Presence Validations
