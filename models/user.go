@@ -33,6 +33,25 @@ func (u *User) SaveUser() error {
 	return err
 }
 
+// Decrypt - checks if hash matches decrypted string
+// func Decrypt(password, hash string) bool {
+// 	err := bcrypt.CompareHashAndPassword([]byte(hash), []byte(password))
+// 	return err == nil
+// }
+
+// FindUser - makes sure the user is valid and password matches hash
+func (u *User) FindUser() (found bool, user User) {
+	config.Database.DB.First(&user, User{Email: u.Email})
+
+	validPassword := Decrypt(u.Password, user.Password)
+
+	if validPassword {
+		return true, user
+	}
+
+	return false, User{}
+}
+
 // ValidateUser - validations
 func (u *User) ValidateUser() (err []error) {
 	messages := make([]error, 0)
