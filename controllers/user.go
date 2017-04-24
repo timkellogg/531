@@ -2,9 +2,9 @@ package controllers
 
 import (
 	"encoding/json"
+	"fmt"
 	"net/http"
 
-	"github.com/timkellogg/531/server/config"
 	"github.com/timkellogg/531/server/models"
 )
 
@@ -23,12 +23,19 @@ func UsersCreate(w http.ResponseWriter, r *http.Request) {
 
 	errors := user.ValidateUser()
 	if len(errors) > 0 {
-		w.WriteHeader(http.StatusUnprocessableEntity)
+		fmt.Println(errors)
 		json.NewEncoder(w).Encode(errors)
+		w.WriteHeader(http.StatusUnprocessableEntity)
 		return
 	}
 
-	config.Database.DB.Create(&user)
+	saved := user.SaveUser()
+	if saved != nil {
+		fmt.Println(saved)
+		json.NewEncoder(w).Encode(saved)
+		w.WriteHeader(http.StatusInternalServerError)
+		return
+	}
 
 	w.WriteHeader(http.StatusOK)
 	json.NewEncoder(w).Encode(&user)

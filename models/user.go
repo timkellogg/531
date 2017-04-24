@@ -3,7 +3,7 @@ package models
 import (
 	"errors"
 
-	"golang.org/x/crypto/bcrypt"
+	"log"
 
 	"github.com/jinzhu/gorm"
 	"github.com/timkellogg/531/server/config"
@@ -18,6 +18,19 @@ type User struct {
 	Email    string    `json:"email"`
 	Weight   uint      `json:",string"`
 	Password string    `json:"password"`
+}
+
+// SaveUser - performs pw encryption then saves record
+func (u *User) SaveUser() error {
+	encryptedPassword, err := Encrypt(u.Password)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	user := User{Password: encryptedPassword, Username: u.Username, Email: u.Email, Weight: u.Weight}
+	config.Database.DB.Create(&user)
+
+	return err
 }
 
 // ValidateUser - validations
@@ -40,22 +53,11 @@ func (u *User) ValidateUser() (err []error) {
 	// Uniqueness Validations
 	user := User{}
 
-	record := config.Database.DB.First(&user, User{Email: u.Email}).Count
-	if record != nil {
+	recordNotFound := config.Database.DB.First(&user, User{Email: u.Email}).RecordNotFound()
+
+	if !recordNotFound {
 		messages = append(messages, errors.New("Email has to be unique"))
 	}
 
 	return messages
-}
-
-// encryptPassword - encrypts password using bcrypt hashing algo
-func (u *User) encryptPassword() (string, error) {
-	bytes, err := bcrypt.GenerateFromPassword([]byte(u.Password), 14)
-	return string(bytes), err
-}
-
-// decryptPassword - checks if hash matches decrypted password
-func (u *User) decryptPassword(password string) bool {
-	err := bcrypt.CompareHashAndPassword([]byte(u.Password), []byte(password))
-	return err == nil
 }
