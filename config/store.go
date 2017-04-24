@@ -4,8 +4,6 @@ import (
 	"log"
 	"os"
 
-	"fmt"
-
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/postgres"
 	"github.com/timkellogg/531/server/models"
@@ -34,8 +32,11 @@ func (i *Store) InitDb() {
 
 // CreateDb - creates table
 func (i *Store) CreateDb() {
+	// Migrate Tables
 	i.DB.AutoMigrate(&models.User{})
 	i.DB.AutoMigrate(&models.Program{})
 
-	fmt.Println("Migrated tables")
+	// Add Indices
+	i.DB.Model(&models.User{}).AddUniqueIndex("idx_user_id", "id")
+	i.DB.Model(&models.User{}).AddUniqueIndex("idx_user_email", "email")
 }
