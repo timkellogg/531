@@ -3,6 +3,8 @@ package models
 import (
 	"errors"
 
+	"golang.org/x/crypto/bcrypt"
+
 	"github.com/jinzhu/gorm"
 	"github.com/timkellogg/531/server/config"
 )
@@ -44,4 +46,16 @@ func (u *User) ValidateUser() (err []error) {
 	}
 
 	return messages
+}
+
+// encryptPassword - encrypts password using bcrypt hashing algo
+func (u *User) encryptPassword() (string, error) {
+	bytes, err := bcrypt.GenerateFromPassword([]byte(u.Password), 14)
+	return string(bytes), err
+}
+
+// decryptPassword - checks if hash matches decrypted password
+func (u *User) decryptPassword(password string) bool {
+	err := bcrypt.CompareHashAndPassword([]byte(u.Password), []byte(password))
+	return err == nil
 }
