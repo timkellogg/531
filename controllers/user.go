@@ -25,6 +25,7 @@ func UsersCreate(w http.ResponseWriter, r *http.Request) {
 	if len(errors) > 0 {
 		w.WriteHeader(http.StatusUnprocessableEntity)
 		json.NewEncoder(w).Encode(errors)
+		return
 	}
 
 	config.Database.DB.Create(&user)

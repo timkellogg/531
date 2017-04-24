@@ -3,7 +3,10 @@ package models
 import (
 	"errors"
 
+	"fmt"
+
 	"github.com/jinzhu/gorm"
+	"github.com/timkellogg/531/server/config"
 )
 
 // User - model
@@ -32,6 +35,17 @@ func (u *User) ValidateUser() (err []error) {
 
 	if u.Username == "" {
 		messages = append(messages, errors.New("Username cannot be blank"))
+	}
+
+	// Uniqueness Validations
+	user := User{}
+
+	record := config.Database.DB.First(&user, User{Email: u.Email}).Count
+
+	if record != nil {
+		messages = append(messages, errors.New("Email has to be unique"))
+	} else {
+		fmt.Println("thinks it's nil")
 	}
 
 	return messages
