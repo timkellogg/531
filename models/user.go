@@ -3,6 +3,8 @@ package models
 import (
 	"errors"
 
+	"log"
+
 	"github.com/jinzhu/gorm"
 	"github.com/timkellogg/531/server/config"
 )
@@ -16,6 +18,38 @@ type User struct {
 	Email    string    `json:"email"`
 	Weight   uint      `json:",string"`
 	Password string    `json:"password"`
+}
+
+// SaveUser - performs pw encryption then saves record
+func (u *User) SaveUser() error {
+	encryptedPassword, err := Encrypt(u.Password)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	user := User{Password: encryptedPassword, Username: u.Username, Email: u.Email, Weight: u.Weight}
+	config.Database.DB.Create(&user)
+
+	return err
+}
+
+// Decrypt - checks if hash matches decrypted string
+// func Decrypt(password, hash string) bool {
+// 	err := bcrypt.CompareHashAndPassword([]byte(hash), []byte(password))
+// 	return err == nil
+// }
+
+// FindUser - makes sure the user is valid and password matches hash
+func (u *User) FindUser() (found bool, user User) {
+	config.Database.DB.First(&user, User{Email: u.Email})
+
+	validPassword := Decrypt(u.Password, user.Password)
+
+	if validPassword {
+		return true, user
+	}
+
+	return false, User{}
 }
 
 // ValidateUser - validations
@@ -38,8 +72,9 @@ func (u *User) ValidateUser() (err []error) {
 	// Uniqueness Validations
 	user := User{}
 
-	record := config.Database.DB.First(&user, User{Email: u.Email}).Count
-	if record != nil {
+	recordNotFound := config.Database.DB.First(&user, User{Email: u.Email}).RecordNotFound()
+
+	if !recordNotFound {
 		messages = append(messages, errors.New("Email has to be unique"))
 	}
 
