@@ -17,7 +17,7 @@ func main() {
 	bootstrap()
 
 	router := NewRouter()
-	// handler := cors.Default().Handler(router)
+
 	handler := cors.New(cors.Options{
 		AllowCredentials: true,
 		AllowedOrigins:   []string{"http://localhost:4200"},

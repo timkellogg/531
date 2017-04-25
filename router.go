@@ -23,6 +23,7 @@ type Routes []Route
 var routes = Routes{
 	Route{"Registration", "POST", "/api/users", controllers.UsersCreate},
 	Route{"Login", "POST", "/api/auth/login", controllers.AuthLogin},
+	Route{"Logout", "POST", "/api/auth/logout", controllers.AuthLogout},
 }
 
 // Cors - enable logging
