@@ -6,8 +6,6 @@ import (
 	"os"
 	"time"
 
-	"fmt"
-
 	"github.com/timkellogg/531/server/models"
 )
 
@@ -47,7 +45,10 @@ func AuthLogin(w http.ResponseWriter, r *http.Request) {
 func AuthLogout(w http.ResponseWriter, r *http.Request) {
 	cookie, _ := r.Cookie("fivethreeonesession")
 
-	fmt.Println(cookie)
-	// set ttl to expired date (ie, yesterday)
-	// set the cookie contents to be rubbish
+	cookie.Value = ""
+	cookie.MaxAge = 0
+
+	http.SetCookie(w, cookie)
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(http.StatusOK)
 }
